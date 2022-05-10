@@ -71,20 +71,47 @@ export class HotelsPage {
         phone: '8 (495) 234-12-06'
       },
       {
-        imageUrl: 'https://cdn.ostrovok.ru/t/640x400/extranet/50/1c/501c6211826d67319ab8503185fa4032ef4eafb2.jpeg',
+        imageUrl: 'https://artmetall.ua/wp-content/uploads/2015/04/04-15-13.jpg',
         title: 'Вселенная',
         description: 'Гостиница "Вселенная"',
         roomCost: 4000,
+        hasParking: false,
+        address: 'Москва, ул. Мира, 135',
+        phone: '8 (495) 234-12-40'
+      },
+      {
+        imageUrl: 'https://s.101hotelscdn.ru/uploads/image/hotel_image/4119/197294_mobile.jpg',
+        title: 'Спутник',
+        description: 'Гостиница "Спутник"',
+        roomCost: 2000,
+        hasParking: false,
+        address: 'Москва, ул. Ленинградская, 98',
+        phone: '8 (495) 234-12-40'
+      },
+      {
+        imageUrl: 'https://kolomna-hotel.ru/upload/iblock/0b9/0b988813316d6f796614b4e15f06a7e8.jpg',
+        title: 'Астероид',
+        description: 'Гостиница "Астероид"',
+        roomCost: 2400,
         hasParking: false,
         address: 'Москва, пр-т Ленина, 160',
         phone: '8 (495) 234-12-40'
       },
       {
-        imageUrl: 'https://cdn.ostrovok.ru/t/640x400/extranet/50/1c/501c6211826d67319ab8503185fa4032ef4eafb2.jpeg',
-        title: 'Спутник',
-        description: 'Гостиница "Спутник"',
-        roomCost: 2000,
-        hasParking: false,
+        imageUrl: 'https://edem-v-gosti.ru/upload/resize_cache/iblock/793/700_530_1/kometa_moskva-_1_.jpg',
+        title: 'Комента',
+        description: 'Гостиница "Комета"',
+        roomCost: 2300,
+        hasParking: true,
+        address: 'Москва, пр-т Ленина, 160',
+        phone: '8 (495) 234-12-40'
+      },
+      {
+        imageUrl: 'https://s0.rbk.ru/v6_top_pics/media/img/4/35/755016838560354.jpg',
+        title: 'Вологда',
+        description: 'Гостиница "Вологда"',
+        roomCost: 3303,
+        hasParking: true,
         address: 'Москва, пр-т Ленина, 160',
         phone: '8 (495) 234-12-40'
       }
@@ -103,7 +130,7 @@ export class HotelsPage {
     this.filterHotel(value);
   }
   onCancelSearch(value){
-
+    
   }
   goToHotelPage(hotel) {
     this.navCtrl.push(HotelPage, {
@@ -126,46 +153,46 @@ export class HotelsPage {
       case 'roomCost':
         return this.sortHotelByRoomCost(sortBy);
       case 'title':
-        return this.sortHotelByTilte(sortBy);
+        return this.sortHotelByTitle(sortBy);
       default:
         return (a,b) => 0;
     } 
   }
   sortHotelByRoomCost(sortBy){
     return (a,b) => {
-      if(sortBy === 'asc'){
-        return a.roomCost-b.roomCost;
-      } else if(sortBy === 'desc'){
-        return b.roomCost-a.roomCost;
-      } else {
-        return 0;
+      switch (sortBy) {
+        case 'asc':
+          return a.roomCost-b.roomCost;
+        case 'desc':
+          return b.roomCost-a.roomCost;
+        default:
+          return 0;
       }
     }
   }
-  sortHotelByTilte(sortBy){
+  sortHotelByTitle(sortBy){
     return (a,b) => {
       //return a.title.localeCompare(b.title);
       let titleA = a.title.toLowerCase(), titleB = b.title.toLowerCase();
-      if(sortBy === 'asc'){
-        if (titleA < titleB){
-          return -1;
-        }
-        if (titleA > titleB){
-          return 1;
-        } else {
-          return 0; 
-        }
-      } else if(sortBy === 'desc'){
-        if (titleB < titleA){
-          return -1;
-        }
-        if (titleB > titleA){
-          return 1;
-        } else {
-          return 0; 
-        }
-      } else {
-        return 0;
+      switch (sortBy) {
+        case 'asc':
+          if (titleA < titleB){
+            return -1;
+          } else if (titleA > titleB){
+            return 1;
+          } else {
+            return 0; 
+          } 
+        case 'desc':
+          if (titleB < titleA){
+            return -1;
+          } else if (titleB > titleA){
+            return 1;
+          } else {
+            return 0; 
+          }
+        default:
+          return 0;
       }
     }
   }
@@ -199,6 +226,8 @@ export class HotelsPage {
       } 
       return true;
     });
-    this.menuCtrl.toggle('filter');
+    if(this.menuCtrl.isOpen('filter')){
+      this.menuCtrl.close('filter');
+    }
   }
 }
