@@ -1,0 +1,11 @@
+page-hotel {
+    .hotel-content{
+        &__img{
+            width: 100%;
+            object-fit: cover
+        }
+        &__button-phone{
+            padding-right: 0!important;
+        }
+    }
+}
