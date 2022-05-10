@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, MenuController } from 'ionic-angular';
 import { Hotel } from '../../app/interface/hotel';
 import { SelectsSort } from '../../app/interface/selectsSort';
 import { HotelPage } from '../hotel/hotel';
@@ -12,7 +12,7 @@ export class HotelsPage {
   hotels: Array<Hotel>;
   filterHotels: Array<Hotel>;
   selectsSort: Array<SelectsSort>;
-  filterIsShow: boolean;
+  searchIsShow: boolean;
   searchInput?: string;
   sortBy?: string;
   filters: {
@@ -20,7 +20,7 @@ export class HotelsPage {
     roomCostAfter: number,
     roomHasParking: boolean
   };
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, public menuCtrl: MenuController) {
     this.selectsSort = [
       {
         value: 'asc',
@@ -48,7 +48,7 @@ export class HotelsPage {
         name: 'Без сортировки'
       }
     ],
-    this.filterIsShow = false,
+    this.searchIsShow = false,
     this.searchInput = '',
     this.sortBy = '',
     this.hotels = [
@@ -96,8 +96,8 @@ export class HotelsPage {
       roomHasParking: false
     }
   }
-  filterShow(){
-    this.filterIsShow = !this.filterIsShow;
+  openFilterMenu(){
+    this.menuCtrl.toggle('filter');
   }
   onInputSearch(value){
     this.filterHotel(value);
@@ -134,9 +134,9 @@ export class HotelsPage {
   sortHotelByRoomCost(sortBy){
     return (a,b) => {
       if(sortBy === 'asc'){
-        return b.roomCost-a.roomCost;
-      } else if(sortBy === 'desc'){
         return a.roomCost-b.roomCost;
+      } else if(sortBy === 'desc'){
+        return b.roomCost-a.roomCost;
       } else {
         return 0;
       }
@@ -199,5 +199,6 @@ export class HotelsPage {
       } 
       return true;
     });
+    this.menuCtrl.toggle('filter');
   }
 }

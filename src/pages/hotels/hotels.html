@@ -4,49 +4,65 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Гостиницы</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="searchIsShow = !searchIsShow">
+        <ion-icon name="search"></ion-icon>
+      </button>
+      <button 
+        ion-button 
+        icon-only
+        (click)="openFilterMenu()"
+      >
+        <ion-icon name="options">  
+        </ion-icon>
+      </button>
+    </ion-buttons> 
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <button block ion-button (click)="filterShow()">Фильтр</button>
+  <ion-searchbar
+    *ngIf="searchIsShow"
+    [(ngModel)]="myInput"
+    (ionInput)="onInputSearch($event.target.value)"
+    placeholder="Поиск по названию"
+    (ionCancel)="onCancelSearch($event)">
+  </ion-searchbar>
+  <ion-menu side="right" id="filter" [content]="mycontent">
+    <ion-content>
+      <ion-list>
+        <ion-item>
+          <ion-label>Отсортировать по</ion-label>
+          <ion-select 
+            [(ngModel)]="sortBy" 
+            (ionChange)="sortHotel($event)"
+            cancelText="Отмена"
+            okText="Применить"
+          >
+            <ion-option *ngFor="let select of selectsSort" [value]="select">{{select.name}}</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>цена от</ion-label>
+          <ion-input type="number" [(ngModel)]="filters.roomCostBefore"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>цена до</ion-label>
+          <ion-input type="number" [(ngModel)]="filters.roomCostAfter"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Наличие парковки</ion-label>
+          <ion-checkbox [(ngModel)]="filters.roomHasParking" checked="true"></ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <button block round ion-button (click)="filterHotel()">Отфильтровать</button>
+          <button block round ion-button (click)="filterHotelClear()">Сбросить фильтры</button>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <ion-nav #mycontent [root]="rootPage"></ion-nav>
 
-  <ion-list *ngIf="filterIsShow">
-    <ion-item>
-      <ion-searchbar
-        [(ngModel)]="myInput"
-        (ionInput)="onInputSearch($event.target.value)"
-        placeholder="Поиск по названию"
-        (ionCancel)="onCancelSearch($event)">
-      </ion-searchbar>
-    </ion-item>
-    <ion-item>
-      <ion-label floating>цена от</ion-label>
-      <ion-input type="number" [(ngModel)]="filters.roomCostBefore"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label floating>цена до</ion-label>
-      <ion-input type="number" [(ngModel)]="filters.roomCostAfter"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label>Наличие парковки</ion-label>
-      <ion-checkbox [(ngModel)]="filters.roomHasParking" checked="true"></ion-checkbox>
-    </ion-item>
-    <ion-item>
-      <ion-label>Отсортировать по</ion-label>
-      <ion-select 
-        [(ngModel)]="sortBy" 
-        (ionChange)="sortHotel($event)"
-        cancelText="Отмена"
-        okText="Применить"
-      >
-        <ion-option *ngFor="let select of selectsSort" [value]="select">{{select.name}}</ion-option>
-      </ion-select>
-    </ion-item>
-    <ion-item>
-      <button block round ion-button (click)="filterHotel()">Отфильтровать</button>
-      <button block round ion-button (click)="filterHotelClear()">Сбросить фильтры</button>
-    </ion-item>
-  </ion-list>
   <ion-list>
     <button ion-item *ngFor="let hotel of filterHotels" (click)="goToHotelPage(hotel)">
       <ion-avatar item-start>
