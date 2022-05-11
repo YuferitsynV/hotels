@@ -1,6 +1,8 @@
 page-hotels {
-    .button-wrapper{
-        display: flex;
-        justify-content: center;
+    .hotel-content{
+        &__filter-button-submit-wrapper{
+            display: flex;
+            justify-content: center;
+        }
     }
 }

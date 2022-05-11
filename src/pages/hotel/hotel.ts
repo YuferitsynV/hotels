@@ -22,7 +22,7 @@ export class HotelPage {
   };
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad HotelPage');
+    //console.log('ionViewDidLoad HotelPage');
   }
 
 }
