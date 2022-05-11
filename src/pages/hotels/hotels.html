@@ -65,6 +65,7 @@
     <ion-item>
       <ion-label>Сортировка по</ion-label>
       <ion-select 
+        class="hotels-sort__select"
         [(ngModel)]="sortBy" 
         (ionChange)="sortHotel($event)"
         cancelText="Отмена"
